@@ -1,0 +1,32 @@
+<html>
+<body>
+	<p>hello</p>
+	<template id="template-library-item">
+		<div class="item-container">
+			<p data-bind-value="g_alma">x</p>
+		</div>
+	</template>
+	<script>
+
+		function resolveBindings(node) {
+			for(let child of node.children) { 
+				console.log(child);
+				//-----------------------------------
+				if(child.dataset.bindValue)
+					child.innerHTML = eval(child.dataset.bindValue);
+				//--------------------------------
+				if(child.children) { 
+					resolveBindings(child);
+				}
+			}
+		}
+
+		g_alma = "alma korte";
+		window.onload = function(){ 
+			let itemElement = document.getElementById("template-library-item").content.cloneNode(true);
+			resolveBindings(itemElement);
+			document.body.appendChild(itemElement);
+		}
+	</script>
+</body>
+</html>
